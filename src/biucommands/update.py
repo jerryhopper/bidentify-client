@@ -6,7 +6,7 @@ import urllib.request
 from pathlib import Path
 
 
-print(sys.version)
+#print(sys.version)
 
 def showUsage():
     #print("BI Universe - the definitive tool for identifying Arma-files")
@@ -56,20 +56,20 @@ def updateStart():
     # http://ftp.armedassault.info/armaholic/arma2_os.armaholic.txt
     home = str(Path.home())
 
-    
-    print("Updating Arma file index, using bidentify server at " +output)
+    print("Connecting to bidentify server at " +output)
+    print("Updating Arma file index (arma.bidb)")
     try:
         urllib.request.urlretrieve(output+"/armaholic/arma.bidb",home+"/arma.bidb")
     except ( urllib.error.URLError,urllib.error.HTTPError) as e:
         print (e)
-        
-    print("Updating Arma2 file index.")
+
+    print("Updating Arma2 file index. (arma2.bidb)")
     try:
         urllib.request.urlretrieve(output+"/armaholic/arma.bidb",home+"/arma2.bidb")
     except ( urllib.error.URLError,urllib.error.HTTPError) as e:
         print (e)
 
-    print("Updating Arma2_OA file index.")
+    print("Updating Arma2_OA file index. (arma2_oa.bidb)")
     try:
         urllib.request.urlretrieve(output+"/armaholic/arma2_oa.bidb",home+"/arma2_oa.bidb")
     except ( urllib.error.URLError,urllib.error.HTTPError) as e:

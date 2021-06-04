@@ -11,10 +11,10 @@ from biucommands.findinlist import findinlist
 
 def showUsage():
     print("Usage:")
-    print(" "+sys.argv[0]+" scan (-h --help)")
-    print(" "+sys.argv[0]+" update (-h --help)")
-    print(" "+sys.argv[0]+" analyze (-h --help)")
-    print(" "+sys.argv[0]+" inspect (-h --help)")
+    print(" "+sys.argv[0].split("\\")[-1]+" scan (-h --help)")
+    print(" "+sys.argv[0].split("\\")[-1]+" update (-h --help)")
+    print(" "+sys.argv[0].split("\\")[-1]+" analyze (-h --help)")
+    print(" "+sys.argv[0].split("\\")[-1]+" inspect (-h --help)")
 
 
 
@@ -25,6 +25,7 @@ def main():
 
     if sys.argv[1] == "scan":
         scandir()
+        analyze()
         sys.exit()
     if sys.argv[1] == "analyze":
         analyze()

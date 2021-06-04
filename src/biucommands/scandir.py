@@ -3,62 +3,65 @@ import os
 import re
 import csv
 from biucommands.hashfile import hashfile
-       
+
 def showUsage():
     #print("BI Universe - the definitive tool for identifying Arma-files")
     print("Usage:")
-    print(" "+sys.argv[0]+" scan [-h --help] [-o outputfilename ]")
+    print(" "+sys.argv[0]+" scan [-h --help] [-o outputfilename ] [-d directory ] [-v]")
 
 
 def scandir():
     try:
-        opts, args = getopt.getopt(sys.argv[2:], "sho:v", ["scan","help", "output="])
+        opts, args = getopt.getopt(sys.argv[2:], "shod:v", ["scan","help", "output=","directory="])
     except getopt.GetoptError as err:
         # print help information and exit:
         print(err)  # will print something like "option -a not recognized"
         showUsage()
         sys.exit(2)
-    global output
     output = None
+    directory = None
     verbose = False
     #print(args)
     for o, a in opts:
-        
+
         if o == "-v":
             verbose = True
         elif o in ("-h", "--help"):
-            scandirStart()
+            scanUsage()
             sys.exit()
         elif o in ("-o", "--output"):
             output = a
+        elif o in ("-d", "--directory"):
+            directory = a
         else:
             assert False, "unhandled option"
     # ...
-    
-    scandirStart()
+
+    scandirStart(output,directory,verbose)
 
 
-def scandirStart():
+def scandirStart(output,directory,verbose):
     # setx path "D:\#BiUniverse_git\biuniverse;%path%;"
     # pathman /au D:\#BiUniverse_git\biuniverse
-    global output
+    #global output
     #print(output)
 
-    
+
     if output is None:
+        print("Missing option -o -output, using default 'fileList'")
         output="fileList"
-    
-    CURRENT_DIR=os.getcwd()
+    if directory is None:
+        print("Missing option -d -directory, using current directory")
+        CURRENT_DIR=os.getcwd()
+    else:
+        CURRENT_DIR=directory
+    print()
     print("Scanning directory: "+CURRENT_DIR)
     print("------------------------------")
-    
-    #os.chdir(os.path.dirname(__file__))
-    #print(CURRENT_DIR)
 
 
 
 
-       
     csvFile = open(output+'.bifl', 'w', encoding='utf8')
     FileListWriterFieldNames = ['exactName', 'fileSize','filePath','fileName','fileExtension']
     FileListWriter = csv.DictWriter(csvFile, fieldnames=FileListWriterFieldNames)
@@ -69,7 +72,7 @@ def scandirStart():
     DirListWriter = csv.DictWriter(csvFile, fieldnames=DirListWriterFieldNames)
     DirListWriter.writeheader()
 
-
+    extensions = [".zip",".exe",".gz",".rar",".7z"]
 
 
     os.chdir(CURRENT_DIR)
@@ -85,7 +88,7 @@ def scandirStart():
                #print( exactName+","+str(fileSize)+","+root+","+fileName+","+fileExtension )
                FileListWriter.writerow({'exactName': exactName, 'fileSize': fileSize,'filePath': filePath, 'fileName': fileName, 'fileExtension': fileExtension})
            #print(os.path.join(root, name))
-           
+
        for name in dirs:
            filePath=root
            exactName=name
@@ -94,7 +97,7 @@ def scandirStart():
            DirListWriter.writerow({'exactName': exactName,'filePath': filePath})
     #
     #print("------------------------------")
-    print("output written to: ")
-    print(" "+output+".bifl")
-    print(" "+output+".bidl")
-    
+    if verbose : print("output written to: ")
+    if verbose : print(" "+output+".bifl")
+    if verbose : print(" "+output+".bidl")
+

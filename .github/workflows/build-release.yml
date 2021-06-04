@@ -55,7 +55,7 @@ jobs:
           docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux "pyinstaller bidentify.py"
           docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-windows
           ls -latr src/dist/bidentify
-          cd src/dist/windows && && zip -r bidentify
+          cd src/dist/windows && zip -r bidentify
           zip -r bidentify.zip src/dist/windows
           ls -latr
       - name: Upload Release Asset
