@@ -42,4 +42,9 @@ jobs:
       - name: Script test 
         shell: bash
         run: |
-          bash pyinstaller bidentify.py 
+          pip install pyinstaller 
+      - name: Script test 
+        shell: bash
+        run: |
+          python bidentify.py 
+  
