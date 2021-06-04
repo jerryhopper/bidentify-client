@@ -35,9 +35,19 @@ Run on the commandline :  bidentify --help
 
 ## bidentify scan
 
-bidentify scan
+Scans the current directory or the directory of choice. 
+
+**bidentify scan** [-o --output] [-d --directory] 
+
+
+-d or --directory : *Specify a custom directory to scan.* 
+
+-o or --output <name> : *Specify a custom name for the scan-results.* 
+
 
 
 ## bidentify update
 
-bidentify update
+Updates the bidentify file-lists from the server.
+
+**bidentify update** 
