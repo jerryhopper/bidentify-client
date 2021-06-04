@@ -5,7 +5,7 @@ import csv
 from pathlib import Path
 
 def findinlist(exactName):
-    print("Find: "+exactName)
+    #print("Find: "+exactName)
     name="arma"
     path = str(Path.home())
     with open(path+"\\"+name+'.bidb', encoding='utf8') as csvfile:

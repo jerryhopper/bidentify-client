@@ -2,6 +2,7 @@ import sys, getopt
 import os
 import re
 import csv
+from biucommands.findinlist import findinlist
 
 
 def showUsage():
@@ -19,7 +20,8 @@ def analyzeFile(name):
     with open(name+'.bifl', encoding='utf8') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            print(row['exactName'], row['fileSize'], row['filePath'], row['fileName'], row['fileExtension'])
+            #print(row['exactName'], row['fileSize'], row['filePath'], row['fileName'], row['fileExtension'])
+            findinlist(row['exactName'])
 
 def analyzeDir(name):
     #
@@ -27,6 +29,9 @@ def analyzeDir(name):
         reader = csv.DictReader(csvfile)
         for row in reader:
             print(row['exactName'], row['filePath'])
+
+
+
 
 def analyze():
     try:
@@ -89,8 +94,8 @@ def analyzeStart(output,directory,verbose):
 
     gamename = ["ofp","arma","arma2","arma2oa","arma2_oa","arma3"]
 
-    #analyzeFile(output)
-    analyzeDir(output)
+    analyzeFile(output)
+    #analyzeDir(output)
 
 
 
