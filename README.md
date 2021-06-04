@@ -29,7 +29,15 @@ add to your windows PATH
 
 
 # Usage
+Open a command-prompt and navigate to the folder of your schoice.
 
+Run on the commandline :  bidentify --help
 
 ## bidentify scan
 
+bidentify scan
+
+
+## bidentify update
+
+bidentify update
