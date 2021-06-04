@@ -48,7 +48,7 @@ jobs:
       - name: Docker?
         shell: bash
         run: |
-          docker run -v "$(pwd):/src/" cdrx/pyinstaller-linux "pyinstaller bidentify.py"
-          docker run -v "$(pwd):/src/" cdrx/pyinstaller-windows
+          docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux "pyinstaller bidentify.py"
+          docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-windows
 
 
