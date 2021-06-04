@@ -44,13 +44,11 @@ jobs:
         run: |
           pip install rarfile
       - name: Script test
-        run: src/python bidentify.py
+        run: python src/bidentify.py
       - name: Docker?
         shell: bash
         run: |
           docker run -v "$(pwd):/src/" cdrx/pyinstaller-linux "pyinstaller bidentify.py"
           docker run -v "$(pwd):/src/" cdrx/pyinstaller-windows
-      - name: Script test
-        shell: bash
-        run: pyinstaller bidentify.py
+
 
