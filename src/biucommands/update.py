@@ -65,7 +65,7 @@ def updateStart():
 
     print("Updating Arma2 file index. (arma2.bidb)")
     try:
-        urllib.request.urlretrieve(output+"/armaholic/arma.bidb",home+"/arma2.bidb")
+        urllib.request.urlretrieve(output+"/armaholic/arma2.bidb",home+"/arma2.bidb")
     except ( urllib.error.URLError,urllib.error.HTTPError) as e:
         print (e)
 
