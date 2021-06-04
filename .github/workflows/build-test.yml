@@ -50,7 +50,9 @@ jobs:
         run: |
           docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux "pyinstaller bidentify.py"
           docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-windows
-          ls -latr src
-          ls -latr src/dist
+          ls -latr src/dist/bidentify
+          zip -r bidentify.zip src/dist/
+          ls -latr 
+          
 
 
