@@ -4,7 +4,7 @@ commandline identification tool for file used by Bohemia Interactive games.
 
 
 
-*Bidentify* ( *Pronounced: Bee-Eye-dentify* ) 
+__Bidentify__ ( *Pronounced: Bee-Eye-dentify* ) 
 
 A file identification utility-suite for detecting,finding and archiving usergenerated content for Bohemia Interactive games.
 
