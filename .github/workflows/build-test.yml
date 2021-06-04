@@ -39,16 +39,16 @@ jobs:
         with:
           python-version: '3.9' # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-      - name: Docker? 
-        shell: bash
-        run: |
-          docker ps 
       - name: Install rarfile 
         shell: bash
         run: |
           pip install rarfile 
       - name: Script test 
         run: python bidentify.py 
+      - name: Docker? 
+        shell: bash
+        run: |
+          docker run -v "$(pwd):/src/" cdrx/pyinstaller-windows 
       - name: Script test 
         shell: bash
         run: pyinstaller bidentify.py           
