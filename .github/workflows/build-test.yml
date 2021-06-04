@@ -44,7 +44,7 @@ jobs:
         run: |
           pip install rarfile
       - name: Script test
-        run: python bidentify.py
+        run: src/python bidentify.py
       - name: Docker?
         shell: bash
         run: |
