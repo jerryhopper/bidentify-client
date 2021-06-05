@@ -5,7 +5,6 @@ import csv
 from biucommands.hashfile import hashfile
 
 def showUsage():
-    #print("BI Universe - the definitive tool for identifying Arma-files")
     print("Usage:")
     print(" "+sys.argv[0]+" scan [-h --help] [-o outputfilename ] [-d directory ] [-v]")
 
@@ -48,15 +47,15 @@ def scandirStart(output,directory,verbose):
 
 
     if output is None:
-        print("Missing option -o -output, using default 'fileList'")
+        if verbose: print("Missing option -o -output, using default 'fileList'")
         output="fileList"
     if directory is None:
-        print("Missing option -d -directory, using current directory")
         CURRENT_DIR=os.getcwd()
+        if verbose: print("Missing option -d -directory, using current directory")
     else:
         CURRENT_DIR=directory
     print()
-    print("Scanning directory: "+CURRENT_DIR)
+    print("Scanning... "+CURRENT_DIR)
     print("------------------------------")
 
 

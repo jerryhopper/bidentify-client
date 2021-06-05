@@ -15,13 +15,24 @@ def showUsage():
 
 
 
-def analyzeFile(name):
+def analyzeFiles(name):
     #
+    results = []
+    # Open the bidentify file-list ()
     with open(name+'.bifl', encoding='utf8') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             #print(row['exactName'], row['fileSize'], row['filePath'], row['fileName'], row['fileExtension'])
-            findinlist(row['exactName'])
+            # Attempt to find the record in the bidentify-database.
+            foundFiles=findinlist(row['exactName'])
+            for foundFile in foundFiles:
+                #print (row)
+                if len(foundFile) != 0:
+                    test = {'localFile': row, 'foundFiles':foundFiles }
+                    results.append(test)
+    return results;
+    #print(results)
+
 
 def analyzeDir(name):
     #
@@ -63,6 +74,22 @@ def analyze():
 
     analyzeStart(output,directory,verbose)
 
+def writeAnalyzeResults(results):
+
+    csvFile = open('found.txt', 'w', encoding='utf8')
+    FileListWriterFieldNames = ['localFile']
+    FileListWriter = csv.DictWriter(csvFile, fieldnames=FileListWriterFieldNames)
+    FileListWriter.writeheader()
+
+    print('The following files matched the bidentify lists')
+    for line in results:
+        print(line['localFile']['filePath']+"\\"+line['localFile']['exactName'])
+        #print(line['localFile']['filePath'])
+        #line['exists']
+        FileListWriter.writerow({'localFile': line['localFile']['filePath']+"\\"+line['localFile']['exactName'] })
+
+
+
 def analyzeStart(output,directory,verbose):
     # setx path "D:\#BiUniverse_git\biuniverse;%path%;"
     # pathman /au D:\#BiUniverse_git\biuniverse
@@ -70,10 +97,10 @@ def analyzeStart(output,directory,verbose):
     #print(output)
 
     if output is None:
-        print("Missing option -o -output, using default 'fileList'")
+        if verbose: print("Missing option -o -output, using default 'fileList'")
         output="fileList"
     if directory is None:
-        print("Missing option -d -directory, using current directory")
+        if verbose: print("Missing option -d -directory, using current directory")
         CURRENT_DIR=os.getcwd()
     else:
         CURRENT_DIR=directory
@@ -94,7 +121,9 @@ def analyzeStart(output,directory,verbose):
 
     gamename = ["ofp","arma","arma2","arma2oa","arma2_oa","arma3"]
 
-    analyzeFile(output)
+    results = analyzeFiles(output)
+    #print(results)
+    writeAnalyzeResults(results)
     #analyzeDir(output)
 
 
