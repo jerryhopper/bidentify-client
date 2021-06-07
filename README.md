@@ -30,13 +30,6 @@ In the 20+ years that Bohemia Interactive has created games, many user-generated
 In an attempt to keep the old content alive, the bidentify project was started. It enables enthousiasts to find and keep old Bohemia-Interactive related files available to the public.
 
 
-# Usage
-
-Open a command-prompt and navigate to the folder of your schoice.
-
-Run on the commandline :  bidentify --help
-
-
 ## Download
 Download the executable version from the releases page : 
 * https://github.com/jerryhopper/bidentify-client/releases
@@ -48,6 +41,16 @@ Unpack the zipfile to a directory of your choice.
 Add this directory to your windows PATH
 
 Example: ```setx path "%path%;c:\DirectoryWithUnzippedContents"```
+
+
+
+# Usage
+
+Open a command-prompt and navigate to the folder of your schoice.
+
+Run on the commandline :  bidentify --help
+
+
 
 
 ## bidentify scan
