@@ -19,6 +19,24 @@ The Bidentity suite consists of several parts.
 * The __[Bidentify-node](https://github.com/jerryhopper/bidentify-node)__ is a Torrent based file-archive that seeds files ( limited to specific size) which are listed in the Bidentify server of your choice.
 
 
+# What does it do?
+
+The bidentify client scans your local directories, and matches archive files and folders, and matches this against known-filelists downloaded from the a bidentify-server.
+
+# Why?
+
+In the 20+ years that Bohemia Interactive has created games, many user-generated content was created and hosted on community websites like Armaholic.com. When time passes, resources get lost - and so does the content.
+
+In an attempt to keep the old content alive, the bidentify project was started. It enables enthousiasts to find and keep old Bohemia-Interactive related files available to the public.
+
+
+# Usage
+
+Open a command-prompt and navigate to the folder of your schoice.
+
+Run on the commandline :  bidentify --help
+
+
 ## Download
 Download the executable version from the releases page : 
 * https://github.com/jerryhopper/bidentify-client/releases
@@ -31,10 +49,6 @@ Add this directory to your windows PATH
 
 Example: ```setx path "%path%;c:\DirectoryWithUnzippedContents"```
 
-# Usage
-Open a command-prompt and navigate to the folder of your schoice.
-
-Run on the commandline :  bidentify --help
 
 ## bidentify scan
 
