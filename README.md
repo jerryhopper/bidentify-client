@@ -43,6 +43,10 @@ Add this directory to your windows PATH
 Example: ```setx path "%path%;c:\DirectoryWithUnzippedContents"```
 
 
+## Updates
+
+In case there is a new update, just extract the contents of the zipfile in the exact same folder as you initially installed it.
+
 
 # Usage
 
