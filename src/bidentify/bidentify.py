@@ -6,6 +6,7 @@ from bidentify.update import BIdentifyUpdateCommand
 from biucommands.scandir import BIdentifyScanCommand
 from biucommands.analyze import BIdentifyAnalyzeCommand
 
+from biucommands.inspect import BIdentifyInspectCommand
 
 class BIdentify:
 
@@ -18,9 +19,6 @@ class BIdentify:
     def __init__(self, config):
         self.config = config
         self.tricks = []    # creates a new empty list for each dog
-
-
-
 
         self.optionVerbose = self.config.get('optionVerbose')
         if self.optionVerbose : print("Initial verbosity is "+str(self.optionVerbose))
@@ -37,7 +35,46 @@ class BIdentify:
         #self.type="fileCommand"
 
 
+    def start(self):
 
+        # File-specific commands.
+        if sys.argv[1] == "update":
+            self.NoArguments()
+            self.doUpdate()
+            sys.exit()
+
+        if sys.argv[1] == "scan":
+            self.type="dirCommand"
+            self.DirectoryArguments()
+            self.doScan()
+            self.doAnalyze()
+            sys.exit()
+
+        if sys.argv[1] == "inspect":
+            self.type="fileCommand"
+            self.FileArguments()
+            print("Not implemented.")
+            self.doInspect()
+            sys.exit()
+
+
+        # Directory specific commands
+        if sys.argv[1] == "analyze":
+            self.type="dirCommand"
+            self.DirectoryArguments()
+            self.doAnalyze()
+            sys.exit()
+
+
+
+        if sys.argv[1] == "submit":
+            self.type="fileCommand"
+            self.FileArguments()
+            print("Not implemented.")
+            #inspect()
+            sys.exit()
+
+        self.showUsage()
 
 
 
@@ -51,6 +88,22 @@ class BIdentify:
         print(" "+self.config.get('EXENAME')+" update (-h --help)")
         print(" "+self.config.get('EXENAME')+" analyze (-h --help)")
         print(" "+self.config.get('EXENAME')+" inspect (-h --help)")
+
+
+    def doInspect(self):
+        InspectCommand = BIdentifyInspectCommand(self.config)
+        InspectCommand.setVerbosity(self.optionVerbose)
+        if self.optionHelp:
+            InspectCommand.showUsage()
+            sys.exit()
+
+        InspectCommand.setDirectory(self.optionDirectory)
+        InspectCommand.setSelectedFile(self.optionFile)
+
+        InspectCommand.inspect()
+
+
+
 
     def doUpdate(self):
         # update
@@ -83,8 +136,9 @@ class BIdentify:
 
         # scan
         ScanCommand.scandir()
-        # analyze
 
+        # analyze
+        #self.doAnalyze()
 
     def doAnalyze(self):
         # update if needed
@@ -112,44 +166,6 @@ class BIdentify:
         # analyze
 
 
-    def start(self):
-
-        # File-specific commands.
-        if sys.argv[1] == "update":
-            self.NoArguments()
-            self.doUpdate()
-            sys.exit()
-
-        if sys.argv[1] == "scan":
-            self.type="dirCommand"
-            self.DirectoryArguments()
-            self.doScan()
-            #self.doAnalyze()
-            sys.exit()
-
-
-        # Directory specific commands
-        if sys.argv[1] == "analyze":
-            self.type="dirCommand"
-            self.DirectoryArguments()
-            self.doAnalyze()
-            sys.exit()
-
-
-        if sys.argv[1] == "inspect":
-            self.type="fileCommand"
-            self.FileArguments()
-            print("Not implemented.")
-            #inspect()
-            sys.exit()
-        if sys.argv[1] == "submit":
-            self.type="fileCommand"
-            self.FileArguments()
-            print("Not implemented.")
-            #inspect()
-            sys.exit()
-
-        self.showUsage()
 
 
     # bidentify update -h --help -v --verbose
