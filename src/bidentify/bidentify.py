@@ -108,7 +108,7 @@ class BIdentify:
         AnalyzeCommand.setDirectory(self.optionDirectory)
 
         # scan
-        AnalyzeCommand.analyzeDir()
+        AnalyzeCommand.analyzeDir(self.optionDirectory)
         # analyze
 
 

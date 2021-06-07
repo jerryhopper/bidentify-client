@@ -132,12 +132,14 @@ class BIdentifyAnalyzeCommand:
 
 
 
-    def analyzeDir(self,name):
+    def analyzeDir(self,directory):
+        a=1
+        self.analyzeStart(directory,self.optionVerbose)
         #
-        with open(name+'.bidl', encoding='utf8') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                print(row['exactName'], row['filePath'])
+        #with open(name+'.bidl', encoding='utf8') as csvfile:
+        #    reader = csv.DictReader(csvfile)
+        #    for row in reader:
+        #        print(row['exactName'], row['filePath'])
 
 
 
