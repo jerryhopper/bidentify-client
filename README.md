@@ -4,7 +4,7 @@ commandline identification tool for file used by Bohemia Interactive games.
 
 
 
-__Bidentify__ ( *Pronounced: Bee-Eye-dentify* ) 
+__Bidentify__ ( *Pronounced: BeeEye-dentify* ) 
 
 The bidentify-client is a file identification utility used for detecting,finding and archiving usergenerated content for Bohemia Interactive games. The bidentity-client is part of the bidentity toolbox.
 
