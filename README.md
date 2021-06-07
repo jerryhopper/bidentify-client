@@ -74,6 +74,8 @@ Analyzes the current directory or the directory of choice.
 
 -d or --directory : *Specify a custom directory to scan.* 
 
+Results will be written to a file called 'found.txt' 
+
 
 ## bidentify update
 
