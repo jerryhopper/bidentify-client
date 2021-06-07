@@ -61,7 +61,7 @@ Run on the commandline :  bidentify --help
 
 Scans the current directory or the directory of choice. 
 
-**bidentify scan** [-d --directory] 
+```bidentify scan [-d --directory=]``` 
 
 -d or --directory : *Specify a custom directory to scan.* 
 
@@ -71,7 +71,7 @@ the indexfiles will be stored in the specified directory
 
 Analyzes the current directory or the directory of choice. 
 
-**bidentify analyze** [-d --directory] 
+```bidentify analyze [-d --directory=]``` 
 
 -d or --directory : *Specify a custom directory to scan.* 
 
@@ -82,4 +82,4 @@ Results will be written to a file called 'found.txt' in the specified directory
 
 Updates the bidentify file-lists from the server.
 
-**bidentify update** 
+```bidentify update``` 
