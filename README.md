@@ -24,9 +24,12 @@ Download the executable version from the releases page :
 * https://github.com/jerryhopper/bidentify-client/releases
 
 ## Installation
-Unpack the zipfile.
-add to your windows PATH
 
+Unpack the zipfile to a directory of your choice.
+
+Add this directory to your windows PATH
+
+Example: ```setx path "%path%;c:\DirectoryWithUnzippedContents"```
 
 # Usage
 Open a command-prompt and navigate to the folder of your schoice.
