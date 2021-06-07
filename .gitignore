@@ -1,2 +1,6 @@
 .idea/
 src/biucommands/__pycache__
+src/bidentify/__pycache__
+example/fileList.bidl
+example/fileList.bifl
+example/found.txt

@@ -1,43 +1,45 @@
 # !/usr/bin/python3
-
+import os
 import sys, getopt
 
-from biucommands.scandir import scandir
-from biucommands.analyze import analyze
-from biucommands.update import update
-from biucommands.inspect import inspect
-from biucommands.hashfile import hashfile
-from biucommands.findinlist import findinlist
 
-def showUsage():
-    print("Usage:")
-    print(" "+sys.argv[0].split("\\")[-1]+" scan (-h --help)")
-    print(" "+sys.argv[0].split("\\")[-1]+" update (-h --help)")
-    print(" "+sys.argv[0].split("\\")[-1]+" analyze (-h --help)")
-    print(" "+sys.argv[0].split("\\")[-1]+" inspect (-h --help)")
+
+from bidentify.bidentify import BIdentify
+from bidentify.config import BIdentifyConfig
+
+
+#from biucommands.scandir import scandir
+#from biucommands.analyze import analyze
+#from biucommands.update import update
+#from biucommands.inspect import inspect
+#from biucommands.hashfile import hashfile
+#from biucommands.findinlist import findinlist
+
+#def showUsage():
+#    print("Usage:")
+#    print(" "+sys.argv[0].split("\\")[-1]+" scan (-h --help)")
+#    print(" "+sys.argv[0].split("\\")[-1]+" update (-h --help)")
+#    print(" "+sys.argv[0].split("\\")[-1]+" analyze (-h --help)")
+#    print(" "+sys.argv[0].split("\\")[-1]+" inspect (-h --help)")
+
 
 
 
 def main():
-    if len(sys.argv)==1:
-        showUsage()
-        sys.exit()
+    # Init config
+    config = BIdentifyConfig()
+    # Init instance
+    Instance = BIdentify(config)
 
-    if sys.argv[1] == "scan":
-        scandir()
-        analyze()
+    #identify.update()
+
+    # if no arguments, show usage.
+    if len(sys.argv)==1:
+        Instance.showUsage()
         sys.exit()
-    if sys.argv[1] == "analyze":
-        analyze()
-        sys.exit()
-    if sys.argv[1] == "update":
-        update()
-        sys.exit()
-    if sys.argv[1] == "inspect":
-        inspect()
-        sys.exit()
-    showUsage()
+    Instance.start()
     sys.exit()
+
 
 
 
