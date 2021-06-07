@@ -65,7 +65,7 @@ Scans the current directory or the directory of choice.
 
 -d or --directory : *Specify a custom directory to scan.* 
 
-the indexfiles will be stored in the specified directory
+the indexfiles will be stored in the specified -or current working directory
 
 ## bidentify analyze
 
@@ -75,7 +75,7 @@ Analyzes the current directory or the directory of choice.
 
 -d or --directory : *Specify a custom directory to scan.* 
 
-Results will be written to a file called 'found.txt' in the specified directory
+Results will be written to a file called 'found.txt' in the specified -or current working directory
 
 
 ## bidentify update
