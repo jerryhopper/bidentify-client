@@ -37,13 +37,18 @@ Run on the commandline :  bidentify --help
 
 Scans the current directory or the directory of choice. 
 
-**bidentify scan** [-o --output] [-d --directory] 
-
+**bidentify scan** [-d --directory] 
 
 -d or --directory : *Specify a custom directory to scan.* 
 
--o or --output <name> : *Specify a custom name for the scan-results.* 
 
+## bidentify analyze
+
+Analyzes the current directory or the directory of choice. 
+
+**bidentify analyze** [-d --directory] 
+
+-d or --directory : *Specify a custom directory to scan.* 
 
 
 ## bidentify update
