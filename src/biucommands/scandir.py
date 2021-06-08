@@ -17,7 +17,6 @@ class BIdentifyScanCommand:
         self.config = config
         self.optionDirectory = None
         self.optionVerbose = False
-        self.tricks = []    # creates a new empty list for each dog
 
 
     def setDirectory(self,dir):

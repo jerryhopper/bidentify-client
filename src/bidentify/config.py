@@ -39,6 +39,7 @@ class BIdentifyConfig:
 
         self.EXENAME= sys.argv[0].split("\\")[-1]
         self.LOCALAPPDATA = os.path.join( os.getenv('LOCALAPPDATA'),"BIdentify")
+        self.TMP = os.getenv('%TEMP%')
         self.ROOTSERVERLIST = "https://raw.githubusercontent.com/jerryhopper/bidentify-definitions/master/data/servers.list"
 
 
