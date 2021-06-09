@@ -14,7 +14,7 @@ import shutil
 class InspectPbo:
 
     def __init__(self, fileObject, workingDir):
-        print("(InspectPbo) init()")
+        #print("(InspectPbo) init()")
         self.fileObject = fileObject
         self.workingDir = workingDir
         self.optionVerbose = False
@@ -45,7 +45,7 @@ class InspectPbo:
     def extractCfg(self,configFile):
         #configFile="config.cpp"
         print("(InspectPbo) extractCfg()")
-        print("Current dir: ", os.getcwdb() )
+        #print("Current dir: ", os.getcwdb() )
         curdir = os.getcwdb()
         if self.optionVerbose : print("extractCfg "+configFile)
 
@@ -65,7 +65,7 @@ class InspectPbo:
 
 
         xtractDirectory = os.path.join(self.workingDir,"~pbo"+self.fileObject.get("fileHash"))
-        print("xtractDirectory " +xtractDirectory)
+        #print("xtractDirectory " +xtractDirectory)
         if os.path.exists(xtractDirectory) :
             shutil.rmtree( xtractDirectory )
 
@@ -138,7 +138,7 @@ class InspectPbo:
             #p = re.search("class (CfgPatches)[\s,\S]({[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\});",config['config.cpp'])
             p = re.search("class (CfgPatches)[\s,\S]{([\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?)\};",rawConfig)
             if p is None:
-                print("nothing found in config.cpp")
+                #print("nothing found in config.cpp")
                 return None
             #print(p)
 
@@ -205,11 +205,14 @@ class InspectPbo:
             f = open(thePrefix, "r")
             #return f.read()
             Lines = f.readlines()
+            #print(Lines)
             lijstje = []
             for line in Lines:
                 cleanLine = line.strip()
                 if cleanLine[:6] == "prefix":
+                    print("found prefix")
                     config['prefix']=cleanLine.split("=")[1]
+                    TheconfigPatches['prefix']=cleanLine.split("=")[1]
                     #lijstje.append(line.strip())
             f.close()
             #config['prefix']=lijstje
@@ -218,7 +221,10 @@ class InspectPbo:
             #shutil.rmtree( xtractDirectory )
             os.chdir(curdir)
             #########################################################################
-            return config
+            #print("(InspectPbo) extractCfg()")
+            #pprint.pprint(config)
+            #return config
+            return TheconfigPatches
 
 
 

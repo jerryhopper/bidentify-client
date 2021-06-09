@@ -4,12 +4,12 @@ import os.path
 from biucommands.hashfile import hashfile
 
 from biucommands.inspect_pbo import InspectPbo
-
+import pprint
 
 class myFileObject:
 
     def __init__(self, fileObject=None ):
-        print("(myFileObject) init()")
+        #print("(myFileObject) init()")
         self.optionVerbose = False
         extensions = [".zip",".exe",".gz",".rar",".7z",".pbo"]
 
@@ -26,7 +26,7 @@ class myFileObject:
         elif isinstance(fileObject, str):
             # import from string.
             fullPath = os.path.abspath(fileObject)
-            print("(myFileObject) init("+fullPath+")")
+            #print("(myFileObject) init("+fullPath+")")
             # Allow only our extensions.
             fileExtension = os.path.splitext(fullPath)[1].lower()
             if fileExtension not in extensions :
@@ -70,8 +70,9 @@ class myFileObject:
             #print( isinstance(fileObject, myFileObject ) )
 
     def getFileContentsList(self):
-        print("Current dir: ", os.getcwdb() )
         print("(myFileObject) getFileContentsList")
+        #print("Current dir: ", os.getcwdb() )
+        #print("(myFileObject) getFileContentsList")
         extensions = [".zip",".exe",".gz",".rar",".7z"]
         fullPath = os.path.join(self.object['filePath'],self.object['fileName'])
         if self.object['fileType']==".pbo":
@@ -82,18 +83,25 @@ class myFileObject:
             return X.list()
         #if self.object['fileType'] in extensions:
         #    #
-        return []
+        return None
 
 
     def getAll(self):
+        #print("(myFileObject) getAll")
         return self.object
 
     def get(self,property):
+        #print("(myFileObject) get")
         return self.object[property]
 
     def print(self):
-        #print(self.object['fileHash'],self.object['filePath'],self.object['fileName'],self.object['fileSize'],self.object['fileType'])
+        print("(myFileObject) print")
+        print("-----------------------------------------------")
 
+        pprint.pprint(self.object)
+        print("-----------------------------------------------")
+
+        sys.exit()
         if self.object['fileContentsList'] is None:
             print("-----------------------------------------------")
             print("| fileHash: "+str(self.object['fileHash']))
@@ -112,13 +120,33 @@ class myFileObject:
             print("| fileType: "+str(self.object['fileType']))
             print("-----------------------------------------------")
 
-
+            pprint.pprint(self.object['pboconfig'])
+            #pprint.pprint(self.object['pboconfig']['prefix'])
+            pprint.pprint(self.object)
+            sys.exit()
             for item in self.object['fileContentsList']:
                 if self.optionVerbose : print("| "+item)
-            #print("-----------------------------------------------")
+                #print("| "+item)
+            #if self.object['pboconfig'] is not None:
+            #
+
             if self.object['pboconfig'] is not None:
-                for item in self.object['pboconfig']:
-                    print("| "+item, self.object['pboconfig'][item])
+                print("-----------------------------------------------")
+                if isinstance(self.object['pboconfig'], dict):
+                    #print(self.object['pboconfig']['config'] )
+                    #print(self.object['pboconfig']['prefix'] )
+
+
+                    for item in self.object['pboconfig']['config']:
+                        a=1
+                        print("| "+item+":",self.object['pboconfig']['config'][item])
+                    #print(self.object['pboconfig'])
+                    #print(type( self.object['pboconfig'] ))
+
+                if self.object['pboconfig'] == "mission":
+                    print(self.object['pboconfig'])
+
+
 
 
 
@@ -154,6 +182,7 @@ class myFileObject:
             raise RuntimeError("fileType was already set")
 
     def setFileContentsList(self,contents):
+        print("(myFileObject) setFileContentsList")
         if self.object['fileContentsList'] is None:
             self.object['fileContentsList'] = contents
         else:

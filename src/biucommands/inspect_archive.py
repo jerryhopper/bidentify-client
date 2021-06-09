@@ -3,6 +3,7 @@ import subprocess
 import sys
 import re
 
+import pprint
 import shutil
 from pyunpack import Archive
 from bidentify.fileobject import myFileObject
@@ -14,13 +15,13 @@ from bidentify.fileobject import myFileObject
 class InspectArchive:
 
     def __init__(self, fileObject, workingDir):
-        print("(InspectArchive) init()")
+        #print("(InspectArchive) init()")
         self.fileObject = fileObject
         self.workingDir = workingDir
         self.optionVerbose = False
 
     def list(self):
-        print("(InspectArchive) list")
+        #print("(InspectArchive) list")
         self.inspectArchive(os.path.join(self.fileObject.get("filePath"),self.fileObject.get("fileName") ) )
 
     def extract(self):
@@ -65,7 +66,11 @@ class InspectArchive:
 
         # Unpack if the file is a known archive.
         if fileExtension in [".zip",".rar",".7z"]:
-            print("Extracting from "+fileExtension+"!")
+            print("(InspectArchive) Extracting from "+fileExtension+"!")
+
+            # Create the object for this archive.
+            ArchiveInformation = myFileObject(fullpath)
+
 
             Archive(fullpath).extractall(tempFolder)
 
@@ -78,15 +83,36 @@ class InspectArchive:
                    #print(os.path.splitext(name)[1])
                    if os.path.splitext(name)[1] == ".pbo":
                        #print(os.path.join(root, name))
-                       thecontents.append(os.path.abspath(os.path.join(root, name)) )
+                       allcontents.append(  myFileObject( os.path.abspath(os.path.join(root, name)) ) )
+                       #allcontents.append(os.path.abspath(os.path.join(root, name)) )
                    #fileObject = myFileObject( os.path.join(root, name) )
                    #if fileObject.get("fileType")==".pbo":
                    #thecontents.append(fileObject)
 
-            for item in thecontents:
-                print(item)
-                fileObject = myFileObject( item )
-                fileObject.print()
+            print("(InspectArchive) Iterating.... ")
+
+            #
+            #for item in allcontents:
+            #print()
+            #print(allcontents[0])
+            #print("(InspectArchive) ..")
+            #fileObject = myFileObject( allcontents[0] )
+            #print("(InspectArchive) ... print(fileObject.getAll())")
+            ##print( fileObject.getAll() )
+            #print("(InspectArchive) ....")
+            #fileObject.print()
+            #thecontents.append(fileObject)
+
+            ArchiveInformation.setFileContentsList(allcontents)
+            pprint.pprint(ArchiveInformation.getAll())
+            #fileObject.print()
+            #for item in allcontents:
+            #    print()
+            #    print(item)
+            #    fileObject = myFileObject( item )
+            #    thecontents.append(fileObject)
+            #
+            #    #fileObject.print()
 
             return thecontents
 
