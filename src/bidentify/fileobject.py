@@ -26,7 +26,8 @@ class myFileObject:
         elif isinstance(fileObject, str):
             # import from string.
             fullPath = os.path.abspath(fileObject)
-            #print("(myFileObject) init("+fullPath+")")
+            print("(myFileObject) init("+fullPath+")")
+            print(fileObject)
             # Allow only our extensions.
             fileExtension = os.path.splitext(fullPath)[1].lower()
             if fileExtension not in extensions :

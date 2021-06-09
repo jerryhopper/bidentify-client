@@ -8,6 +8,20 @@ from biucommands.analyze import BIdentifyAnalyzeCommand
 
 from biucommands.inspect import BIdentifyInspectCommand
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class BIdentify:
 
     # bidentify -h

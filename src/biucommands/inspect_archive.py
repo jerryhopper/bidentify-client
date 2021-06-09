@@ -2,7 +2,8 @@ import os
 import subprocess
 import sys
 import re
-
+import time
+import json
 import pprint
 import shutil
 from pyunpack import Archive
@@ -22,7 +23,19 @@ class InspectArchive:
 
     def list(self):
         #print("(InspectArchive) list")
-        self.inspectArchive(os.path.join(self.fileObject.get("filePath"),self.fileObject.get("fileName") ) )
+        thefile = os.path.join(self.fileObject.get("filePath"),self.fileObject.get("fileName") )
+        self.inspectArchive(thefile )
+
+
+        fullpath = os.path.abspath(thefile)
+        #print(fullpath)
+        fileExtension = os.path.splitext(thefile)[1].lower()
+
+        fileExtension = os.path.splitext(thefile)[1].lower()
+
+        tempFolder = "~"+fileExtension.replace(".","")+self.fileObject.get('fileHash')
+        tempFolder = os.path.join(self.workingDir, tempFolder)
+        return tempFolder
 
     def extract(self):
         a=1
@@ -77,19 +90,41 @@ class InspectArchive:
             os.chdir(tempFolder)
             thecontents = []
             allcontents = []
+            listing = []
+            missionInZip = False
+            pboInZip = False
+
             # Walk through all dirs and subdirectories.
             for root, dirs, files in os.walk(".", topdown = False):
                for name in files:
                    #print(os.path.splitext(name)[1])
                    if os.path.splitext(name)[1] == ".pbo":
+                       pboInZip = True
                        #print(os.path.join(root, name))
                        allcontents.append(  myFileObject( os.path.abspath(os.path.join(root, name)) ) )
                        #allcontents.append(os.path.abspath(os.path.join(root, name)) )
+                   if os.path.splitext(name)[1] == ".sqm":
+                       missionInZip = True
+                       print("(InspectArchive) detected Archived mission!" )
+
+                   listing.append(os.path.join(root,name))
+                   #print() listing
                    #fileObject = myFileObject( os.path.join(root, name) )
                    #if fileObject.get("fileType")==".pbo":
                    #thecontents.append(fileObject)
 
             print("(InspectArchive) Iterating.... ")
+            if missionInZip :
+                print(os.path.abspath(os.path.join(root,name)) )
+                MissionData = self.matchMissionSqf(os.path.abspath(os.path.join(root,name)))
+
+                ArchiveInformation.setFileContentsList(listing)
+            elif pboInZip:
+                ll = []
+                for item in allcontents:
+                    ll.append(item.getAll())
+                ArchiveInformation.setFileContentsList(ll)
+
 
             #
             #for item in allcontents:
@@ -103,8 +138,11 @@ class InspectArchive:
             #fileObject.print()
             #thecontents.append(fileObject)
 
-            ArchiveInformation.setFileContentsList(allcontents)
+
             pprint.pprint(ArchiveInformation.getAll())
+
+            x = json.dumps(ArchiveInformation.getAll())
+            print(x)
             #fileObject.print()
             #for item in allcontents:
             #    print()

@@ -7,6 +7,7 @@ import csv
 import shutil
 from pyunpack import Archive
 
+
 from biucommands.hashfile import hashfile
 from biucommands.findinlist import findinlist
 
@@ -18,6 +19,12 @@ from bidentify.fileobject import myFileObject
 import subprocess
 import sys
 
+
+import io
+import sys
+import builtins
+import traceback
+from functools import wraps
 
 
 
@@ -70,7 +77,14 @@ class BIdentifyInspectCommand:
         fullpath = os.path.abspath(thefile)
         fileObject = myFileObject(fullpath)
         archive = InspectArchive(fileObject, self.optionDirectory )
-        archive.list()
+        res = archive.list()
+
+
+        path_parent = os. path. dirname(os. getcwd())
+        os. chdir(path_parent)
+
+        if os.path.exists(res):
+            shutil.rmtree(res)
         #archive.extract()
 
 

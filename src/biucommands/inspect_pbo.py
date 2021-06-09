@@ -4,6 +4,7 @@ import sys
 import re
 from bidentify.pbo import PBOFile
 
+import pprint
 from subprocess import check_output
 import shutil
 # extractpbodos -P -F=config.bin miroslavl_signs.pbo D:\#BIUniverse
@@ -21,10 +22,11 @@ class InspectPbo:
 
     def list(self):
         print("(InspectPbo) list()")
+
         path = os.path.join(self.fileObject.get("filePath"),self.fileObject.get("fileName") )
         path2 = os.path.join(self.workingDir,path.replace('.\\',''))
-        if self.optionVerbose : print("List contents of pbo: "+ path2 )
-
+        print("List contents of pbo: "+ path2 )
+        print(self.workingDir)
 
         try:
             output = check_output("ExtractPboDos.exe -P -LB \""+path2+"\"", shell=True)
@@ -41,6 +43,188 @@ class InspectPbo:
         #print(theContents)
         return theContents
 
+    def matchDescriptionExt(self,theFile):
+        #
+        print("(InspectPbo) matchMissionSqf")
+        f = open(theFile, "r") # ,encoding='utf-8'
+        #result = chardet.detect(f.read())
+        #charenc = result['encoding']
+        #f.close()
+        #f = open(theConfig, "r", charenc)
+        #return f.read()
+        rawConfig = f.read()
+        f.close()
+
+
+        p = re.search('class Header\[\]=[\n,\n,\t]{([\n,\t,\",A-z,0-9,]*)};',rawConfig)
+
+
+        #p = re.search("version=(.*);",rawConfig)
+        #if p is not None:
+        #    print("(InspectPbo) matchMissionSqf - Version found!")
+        #    version = p.groups()[0]
+
+
+
+
+        sys.exit()
+
+
+
+    def matchMissionSqf(self, theMission):
+        # https://pythex.org/
+
+        #theMission="D:\\#BiUniverse_git\\bidentify-client\\example\\contentdirectory\\sethhosll_arma3-missions-master\\arma3-missions-master\\ARTS.Altis\\mission.sqm"
+        print("(InspectPbo) matchMissionSqf")
+        f = open(theMission, "r") # ,encoding='utf-8'
+        #result = chardet.detect(f.read())
+        #charenc = result['encoding']
+        #f.close()
+        #f = open(theConfig, "r", charenc)
+        #return f.read()
+        rawConfig = f.read()
+        f.close()
+
+
+        p = re.search("version=(.*);",rawConfig)
+        if p is not None:
+            print("(InspectPbo) matchMissionSqf - Version found!")
+            version = p.groups()[0]
+
+
+        p = re.search('addons\[\]=[\n,\n,\t]{([\n,\t,\",A-z,0-9,]*)};',rawConfig)
+        if p is not None:
+            print("(InspectPbo) matchMissionSqf - Addons found!")
+            addons = p.groups()[0].strip().replace("\t","").replace("\n","").replace('"',"").split(",")
+            pprint.pprint(addons )
+        else :
+            addons = []
+
+
+        #p = re.findall('class\sItem[0-9]\n\t\t{\n\t\t\t([A-z,0-9,=,\",;,\n,\t,\s,\-,\:,\/\.]*)};',rawConfig)
+        #if p is not None:
+        #    addonsmeta = p
+        #    #pprint.pprint("addonsmetas")
+        #    for meta in addonsmeta:
+        #        print(meta.strip("\t").strip(" "))
+        #    #pprint.pprint(addonsmeta)
+
+        #sys.exit()
+
+        ## class\sItem[0-9]\n\t\t({\n\t\t\t[A-z,0-9,=,",;,\n,\t,\s,\-,\:,\/\.]*)};
+
+
+
+
+        p = re.search("(class (Intel)[\s,\S]*?})",rawConfig)
+        if p is not None:
+            print("(InspectPbo) matchMissionSqf - Intel found!")
+            configPatches = p.groups()[0]
+            intel =p.groups()[0].replace("\t","").replace("}","").replace("{","").replace("class Intel","").replace("\n","").split(";")
+
+        #print(p)
+
+        missionInfo = {}
+        missionInfo['intel']=intel
+        missionInfo['addons']=addons
+        missionInfo['version']=version
+
+        return missionInfo
+        #sys.exit()
+
+
+
+    def matchConfigCpp(self,theConfig):
+        a=1
+        #
+        # read the config.cpp
+        #
+
+        #print( theConfig )
+        f = open(theConfig, "r") # ,encoding='utf-8'
+        #result = chardet.detect(f.read())
+        #charenc = result['encoding']
+        #f.close()
+        #f = open(theConfig, "r", charenc)
+        #return f.read()
+        rawConfig = f.read()
+        f.close()
+
+        #p = re.compile("/^class ([A-z].*)[\s,\S]{([\s,\S]{,}?^\});/")
+        #p = re.search("class (CfgPatches)[\s,\S]({[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\});",config['config.cpp'])
+        #print(rawConfig)
+        p = re.findall("class CfgPatches[\s,\S]{([\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?)\};",rawConfig)
+        if p is None:
+            #print("nothing found in config.cpp")
+            return None
+        configPatches = p[0].replace("\t","")
+
+        #sys.exit()
+        #configPatches = p.group()
+        #print(configPatches)
+
+        TheconfigPatches = {}
+
+        p = re.search("class ([A-z,0-9,\_].*)",configPatches)
+        TheconfigPatches['className'] = p.groups()[0]
+        #print(p.groups()[0])
+
+
+
+        p = re.search("requiredVersion\s=\s(.*);",configPatches)
+        if p :TheconfigPatches['requiredVersion'] = p.groups()[0]
+
+        p = re.search("requiredAddons\[\]\s=\s(.*);",configPatches)
+        if p : TheconfigPatches['requiredAddons'] = p.groups()[0].replace('"',"").replace("{","").replace("}","").split(",")
+
+        p = re.search("version\s=\s(.*);",configPatches)
+        if p :
+            TheconfigPatches['version'] = p.groups()[0]
+
+        p = re.search("name\s=\s(.*);",configPatches)
+        if p :
+            TheconfigPatches['name'] = p.groups()[0].replace('"',"")
+
+        p = re.search("fileName\s=\s(.*);",configPatches)
+        if p :
+            TheconfigPatches['filename'] = p.groups()[0].replace('"',"")
+
+        p = re.search("author\s=\s(.*);",configPatches)
+        if p :
+            TheconfigPatches['author'] = p.groups()[0].replace('"',"")
+
+        p = re.search("mail\s=\s(.*);",configPatches)
+        if p :
+            TheconfigPatches['mail'] = p.groups()[0].replace('"',"")
+
+        p = re.search("url\s=\s(.*);",configPatches)
+        if p :
+            TheconfigPatches['url'] = p.groups()[0].replace('"',"")
+
+        return TheconfigPatches
+
+    def matchPboPrefix(self,thePrefix):
+        #
+        # read the PBOPRFIX
+        #
+        f = open(thePrefix, "r")
+        #return f.read()
+        Lines = f.readlines()
+        #print(Lines)
+        lijstje = []
+        prefix = False
+        for line in Lines:
+            cleanLine = line.strip()
+            if cleanLine[:6] == "prefix":
+                print("found prefix")
+                #config['prefix']=cleanLine.split("=")[1]
+                #lijstje['prefix']=cleanLine.split("=")[1]
+                prefix = cleanLine.split("=")[1]
+
+                #lijstje.append(line.strip())
+        f.close()
+        if prefix is not False : return prefix
+        return lijstje
 
     def extractCfg(self,configFile):
         #configFile="config.cpp"
@@ -99,6 +283,9 @@ class InspectPbo:
             #configFile="config.cpp"
             #print( os.path.join( xtractConfigDir , configFile )  )
             theConfig = None
+            thePrefix = None
+            MissionData = None
+            DescriptionExt = None
             #########################################################################
             os.chdir(xtractDirectory)
             for root, dirs, files in os.walk(".", topdown = False):
@@ -112,71 +299,26 @@ class InspectPbo:
                      if self.optionVerbose : print("Found "+name +" "+thePrefix)
                      #print(root)
                   if name == "mission.sqm":
-                     return "mission"
+                     print(os.path.abspath(os.path.join(root,name)) )
+                     MissionData = self.matchMissionSqf(os.path.abspath(os.path.join(root,name)))
+                     #print(MissionData)
+                     #return "mission"
+                  if name == "description.ext":
+                     print(os.path.abspath(os.path.join(root,name)) )
+                     DescriptionExt = self.matchDescriptionExt(os.path.abspath(os.path.join(root,name)))
+                     #print(MissionData)
+                     #return "mission"
 
 
 
             #theConfig = os.path.join( xtractConfigDir ,configFile )
             if self.optionVerbose : print("__________________________________________________")
-            if theConfig is None:
-                return None
-            #
-            # read the config.cpp
-            #
-            config={}
-            #print( theConfig )
-            f = open(theConfig, "r") # ,encoding='utf-8'
-            #result = chardet.detect(f.read())
-            #charenc = result['encoding']
-            #f.close()
-            #f = open(theConfig, "r", charenc)
-            #return f.read()
-            rawConfig = f.read()
-            f.close()
+            pboConfig = {}
+            if theConfig is not None:
+                pboConfig = self.matchConfigCpp(theConfig)
 
-            #p = re.compile("/^class ([A-z].*)[\s,\S]{([\s,\S]{,}?^\});/")
-            #p = re.search("class (CfgPatches)[\s,\S]({[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\});",config['config.cpp'])
-            p = re.search("class (CfgPatches)[\s,\S]{([\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?)\};",rawConfig)
-            if p is None:
-                #print("nothing found in config.cpp")
-                return None
-            #print(p)
 
-            configPatches = p.groups()[1]
 
-            TheconfigPatches = {}
-
-            p = re.search("class ([A-z].*)",configPatches)
-            TheconfigPatches['className'] = p.groups()[0]
-
-            p = re.search("requiredVersion\s=\s(.*);",configPatches)
-            TheconfigPatches['requiredVersion'] = p.groups()[0]
-
-            p = re.search("requiredAddons\[\]\s=\s(.*);",configPatches)
-            TheconfigPatches['requiredAddons'] = p.groups()[0].replace('"',"").replace("{","").replace("}","").split(",")
-
-            p = re.search("version\s=\s(.*);",configPatches)
-            TheconfigPatches['version'] = p.groups()[0]
-
-            p = re.search("name\s=\s(.*);",configPatches)
-            if p :
-                TheconfigPatches['name'] = p.groups()[0].replace('"',"")
-
-            p = re.search("fileName\s=\s(.*);",configPatches)
-            if p :
-                TheconfigPatches['filename'] = p.groups()[0].replace('"',"")
-
-            p = re.search("author\s=\s(.*);",configPatches)
-            if p :
-                TheconfigPatches['author'] = p.groups()[0].replace('"',"")
-
-            p = re.search("mail\s=\s(.*);",configPatches)
-            if p :
-                TheconfigPatches['mail'] = p.groups()[0].replace('"',"")
-
-            p = re.search("url\s=\s(.*);",configPatches)
-            if p :
-                TheconfigPatches['url'] = p.groups()[0].replace('"',"")
 
             #config['config.cpp'] =TheconfigPatches
             #p = re.compile("class (CfgPatches)[\s,\S]{([\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?\}[\s,\S]*?)\};")
@@ -191,31 +333,15 @@ class InspectPbo:
 
             #config['config.cpp'] = p.group()
             #sys.exit()
-
-
-
-
-
-            config = {}
-            config['config'] =TheconfigPatches
+            if MissionData is not None:
+                pboConfig['mission']=MissionData
 
             #
             # read the PBOPRFIX
             #
-            f = open(thePrefix, "r")
-            #return f.read()
-            Lines = f.readlines()
-            #print(Lines)
-            lijstje = []
-            for line in Lines:
-                cleanLine = line.strip()
-                if cleanLine[:6] == "prefix":
-                    print("found prefix")
-                    config['prefix']=cleanLine.split("=")[1]
-                    TheconfigPatches['prefix']=cleanLine.split("=")[1]
-                    #lijstje.append(line.strip())
-            f.close()
-            #config['prefix']=lijstje
+            if thePrefix is not None:
+                pboConfig['prefix'] = self.matchPboPrefix(thePrefix)
+
 
             #if os.path.exists(xtractDirectory) :
             #shutil.rmtree( xtractDirectory )
@@ -224,7 +350,18 @@ class InspectPbo:
             #print("(InspectPbo) extractCfg()")
             #pprint.pprint(config)
             #return config
-            return TheconfigPatches
+
+            #
+            #
+            #
+            #
+            #
+            #  pboConfig['prefix'] = Prefix-data.
+            #
+            #print("xtractDirectory " +xtractDirectory)
+            if os.path.exists(xtractDirectory) :
+                shutil.rmtree( xtractDirectory )
+            return pboConfig
 
 
 
