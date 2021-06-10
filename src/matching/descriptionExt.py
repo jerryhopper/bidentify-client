@@ -2,7 +2,7 @@ import re
 import pprint
 import pprint
 
-class descriptionExt {
+class descriptionExt :
 
     def __init__(self, fileLocation , verbose = False):
         # set verbosity
@@ -11,7 +11,7 @@ class descriptionExt {
 
         # open file.
         f = open(os.path.abspath(fileLocation), "r") # ,encoding='utf-8'
-        self.textString =  = f.read()
+        self.textString =  f.read()
         f.close()
 
         #########################################
@@ -41,4 +41,4 @@ class descriptionExt {
 
 
         sys.exit()
-}
+

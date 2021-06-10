@@ -2,7 +2,7 @@ import re
 import os
 import pprint
 
-class pboPrefix {
+class pboPrefix :
 
     def __init__(self, fileLocation ,verbose = False ):
         # set verbosity
@@ -10,8 +10,12 @@ class pboPrefix {
         self.optionVerbose : print("(matching\pboPrefix) init()")
 
         # open file.
-        f = open(os.path.abspath(fileLocation), "r") # ,encoding='utf-8'
-        self.textString =  = f.read()
+        #f = open(os.path.abspath(fileLocation), "r") # ,encoding='utf-8'
+        #self.textString = f.read()
+        #f.close()
+        f = open(fileLocation, "r")
+        #return f.read()
+        self.Lines = f.readlines()
         f.close()
 
         #########################################
@@ -29,25 +33,18 @@ class pboPrefix {
         return self.prefixObject
 
 
-    def matchPboPrefix(self,thePrefix):
-        #
-        # read the PBOPRFIX
-        #
-        f = open(thePrefix, "r")
-        #return f.read()
-        Lines = f.readlines()
-        #print(Lines)
+    def matchPboPrefix(self):
+        if self.optionVerbose : print("(pboPrefix) matchPboPrefix")
         lijstje = []
         prefix = False
-        for line in Lines:
+        for line in self.Lines:
             cleanLine = line.strip()
             if cleanLine[:6] == "prefix":
-                print("found prefix")
+                if self.optionVerbose : print("found prefix")
                 #config['prefix']=cleanLine.split("=")[1]
                 #lijstje['prefix']=cleanLine.split("=")[1]
                 prefix = cleanLine.split("=")[1]
 
                 #lijstje.append(line.strip())
-        f.close()
         if prefix is not False : return prefix
         return lijstje

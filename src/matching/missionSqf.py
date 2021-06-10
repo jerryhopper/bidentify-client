@@ -2,7 +2,7 @@ import os
 import re
 import pprint
 
-class missionSqf {
+class missionSqf :
 
     def __init__(self, fileLocation ,verbose = False ):
         # set verbosity
@@ -11,7 +11,7 @@ class missionSqf {
 
         # open file.
         f = open(os.path.abspath(fileLocation), "r") # ,encoding='utf-8'
-        self.textString =  = f.read()
+        self.textString =  f.read()
         f.close()
 
         #########################################
@@ -34,15 +34,15 @@ class missionSqf {
 
         p = re.search("version=(.*);",self.textString)
         if p is not None:
-            print("(InspectPbo) matchMissionSqf - Version found!")
+            print("(missionSqf) matchMissionSqf - Version found!")
             self.missionObject['version'] = p.groups()[0]
 
 
         p = re.search('addons\[\]=[\n,\n,\t]{([\n,\t,\",A-z,0-9,]*)};',self.textString)
         if p is not None:
-            print("(InspectPbo) matchMissionSqf - Addons found!")
+            if self.optionVerbose : print("(missionSqf) matchMissionSqf - Addons found!")
             self.missionObject['addons']  = p.groups()[0].strip().replace("\t","").replace("\n","").replace('"',"").split(",")
-            pprint.pprint(addons )
+            if self.optionVerbose : pprint.pprint(addons )
         else :
             addons = []
 
@@ -64,11 +64,17 @@ class missionSqf {
 
         p = re.search("(class (Intel)[\s,\S]*?})",self.textString)
         if p is not None:
-            print("(InspectPbo) matchMissionSqf - Intel found!")
+            if self.optionVerbose : print("(missionSqf) matchMissionSqf - Intel found!")
             configPatches = p.groups()[0]
-            self.missionObject['intel']  =p.groups()[0].replace("\t","").replace("}","").replace("{","").replace("class Intel","").replace("\n","").split(";")
+            intelObject = {}
+            lijstje = p.groups()[0].replace("\t","").replace("}","").replace("{","").replace("class Intel","").replace("\n","").split(";")
+            for item in lijstje:
+                if item != "":
+                    theItem = item.split("=")
+                    intelObject[theItem[0]] = theItem[1].strip("\"")
+
+
+            self.missionObject['intel']  = intelObject #p.groups()[0].replace("\t","").replace("}","").replace("{","").replace("class Intel","").replace("\n","").split(";")
 
 
 
-
-}

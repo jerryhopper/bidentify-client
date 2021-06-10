@@ -6,7 +6,7 @@ import rarfile
 import csv
 import shutil
 from pyunpack import Archive
-
+import pprint
 
 from biucommands.hashfile import hashfile
 from biucommands.findinlist import findinlist
@@ -63,34 +63,52 @@ class BIdentifyInspectCommand:
         if os.path.isdir(self.optionFile) :
             print('find scanresults. and scan them.')
             sys.exit()
-        #extensions = [".zip",".exe",".gz",".rar",".7z"]
+
+
+        extensions = [".zip",".exe",".gz",".rar",".7z"]
         fileExtension = os.path.splitext(self.optionFile)[1].lower()
+        # check if the file is a pbo.
         if fileExtension == ".pbo":
-            self.inspectPbo(self.optionFile)
+            result = self.inspectPbo(self.optionFile)
+            print("--------------------")
+            pprint.pprint(result)
+            print("(BIdentifyInspectCommand) inspect FINISHED")
+            sys.exit()
+        # check if the file is a accepted archive.
+        if fileExtension in extensions:
+            result = self.inspectArchive( self.optionFile )
+            print("--------------------")
+            pprint.pprint(result)
+            print("(BIdentifyInspectCommand) inspect FINISHED")
             sys.exit()
 
-        self.inspectArchive( self.optionFile )
 
 
     def inspectArchive(self, thefile):
         print("(BIdentifyInspectCommand) inspectArchive()")
         fullpath = os.path.abspath(thefile)
         fileObject = myFileObject(fullpath)
-        archive = InspectArchive(fileObject, self.optionDirectory )
-        res = archive.list()
+        #print("(BIdentifyInspectCommand) inspectArchive(*) ")
 
+        archive = InspectArchive(fileObject, self.optionDirectory )
+        #print("(BIdentifyInspectCommand) inspectArchive() archive.list()")
+
+        tempDir = archive.list()
+
+        ArchiveInformation =  archive.get()
+        #sys.exit()
 
         path_parent = os. path. dirname(os. getcwd())
         os. chdir(path_parent)
 
-        if os.path.exists(res):
-            shutil.rmtree(res)
+        if os.path.exists(tempDir):
+            shutil.rmtree(tempDir)
         #archive.extract()
-
+        return ArchiveInformation.getAll()
 
 
     def inspectPbo(self, thefile):
-        if self.optionVerbose : print("(BIdentifyInspectCommand) inspectStart("+thefile+")")
+        print("(BIdentifyInspectCommand) inspectPbo("+thefile+")")
         if os.path.isfile(thefile):
             if self.optionVerbose : print( "inspecting "+thefile)
         else:
@@ -107,8 +125,11 @@ class BIdentifyInspectCommand:
             sys.exit()
 
         fileObject = myFileObject(fullpath)
-        fileObject.print()
-        return fileObject
+
+        #fileObject.print()
+        print("(BIdentifyInspectCommand) FINISHED inspectPbo()")
+        #sys.exit()
+        return fileObject.getAll()
         #sys.exit()
 
 

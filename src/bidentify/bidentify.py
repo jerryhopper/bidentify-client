@@ -7,7 +7,7 @@ from biucommands.scandir import BIdentifyScanCommand
 from biucommands.analyze import BIdentifyAnalyzeCommand
 
 from biucommands.inspect import BIdentifyInspectCommand
-
+from biucommands.test import BIdentifyTestCommand
 
 
 
@@ -79,7 +79,12 @@ class BIdentify:
             self.doAnalyze()
             sys.exit()
 
-
+        if sys.argv[1] == "test":
+            self.type="fileCommand"
+            self.FileArguments()
+            print("Not implemented.")
+            self.doTest()
+            sys.exit()
 
         if sys.argv[1] == "submit":
             self.type="fileCommand"
@@ -103,6 +108,12 @@ class BIdentify:
         print(" "+self.config.get('EXENAME')+" analyze (-h --help)")
         print(" "+self.config.get('EXENAME')+" inspect (-h --help)")
 
+
+
+
+    def doTest(self):
+        testCommand = BIdentifyTestCommand(self.config)
+        #testCommand.setVerbosity(self.optionVerbose)
 
     def doInspect(self):
         InspectCommand = BIdentifyInspectCommand(self.config)
