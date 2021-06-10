@@ -1,17 +1,22 @@
-
-
-
 import re
+import os
 import pprint
 
 class configCpp {
 
-    def __init__(self, textString, verbose = False ):
+    def __init__(self, fileLocation, verbose = False ):
+        # set verbosity
         self.optionVerbose = verbose
-        self.optionVerbose : self.optionVerbose : print("(matching\configCpp) init()")
+        if self.optionVerbose : print("(matching\configCpp) init()")
 
-        self.textString = textString
+        # open file.
+        f = open(os.path.abspath(fileLocation), "r") # ,encoding='utf-8'
+        self.textString =  = f.read()
+        f.close()
 
+        #########################################
+        # Object definition
+        #########################################
         self.configObject = {}
         self.configObject['className'] = None
         self.configObject['requiredVersion'] = None
@@ -22,9 +27,10 @@ class configCpp {
         self.configObject['author'] = None
         self.configObject['mail'] = None
         self.configObject['url'] = None
+        #########################################
 
         self.matchConfigCpp()
-        
+
     def getAll(self):
         return self.configObject
 

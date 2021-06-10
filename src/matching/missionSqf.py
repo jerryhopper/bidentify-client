@@ -1,22 +1,27 @@
-
-
+import os
 import re
 import pprint
 
-
 class missionSqf {
 
-    def __init__(self, textString ,verbose = False ):
+    def __init__(self, fileLocation ,verbose = False ):
+        # set verbosity
         self.optionVerbose = verbose
-        self.optionVerbose : print("(matching\missionSqf) init()")
+        if self.optionVerbose : print("(matching\missionSqf) init()")
 
-        self.textString = textString
+        # open file.
+        f = open(os.path.abspath(fileLocation), "r") # ,encoding='utf-8'
+        self.textString =  = f.read()
+        f.close()
 
+        #########################################
+        # Object definition
+        #########################################
         self.missionObject = {}
         self.missionObject['version'] = None
         self.missionObject['addons'] = None
         self.missionObject['intel'] = None
-
+        #########################################
 
         self.matchMissionSqf()
 

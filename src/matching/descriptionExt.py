@@ -1,20 +1,25 @@
-
-
 import re
 import pprint
-
-
+import pprint
 
 class descriptionExt {
 
-    def __init__(self, textString , verbose = False):
+    def __init__(self, fileLocation , verbose = False):
+        # set verbosity
         self.optionVerbose = verbose
-        self.optionVerbose : print("(matching\descriptionExt) init()")
+        if self.optionVerbose : print("(matching\descriptionExt) init()")
 
-        self.textString = textString
+        # open file.
+        f = open(os.path.abspath(fileLocation), "r") # ,encoding='utf-8'
+        self.textString =  = f.read()
+        f.close()
+
+        #########################################
+        # Object definition
+        #########################################
         self.descriptionObject = {}
-        #self.descriptionObject = {}
         self.matchDescriptionExt()
+        #########################################
 
     def getAll(self):
         return self.descriptionObject
