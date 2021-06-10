@@ -45,7 +45,7 @@ jobs:
         shell: bash
         run: |
           pip install rarfile pyunpack
-          wget https://mikero.bytex.digital/api/download?filename=depbo-tools-0.8.10-linux-64bit.tgz
+          wget https://mikero.bytex.digital/api/download?filename=depbo-tools-0.8.10-linux-64bit.tgz -o depbo-tools-0.8.10-linux-64bit.tgz
           ls -latr
           tar -zxvf depbo-tools-0.8.10-linux-64bit.tgz
           ls -latr
