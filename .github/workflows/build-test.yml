@@ -46,12 +46,10 @@ jobs:
         run: |
           pip install rarfile pyunpack
           wget https://mikero.bytex.digital/api/download?filename=depbo-tools-0.8.10-linux-64bit.tgz -O depbo-tools.tgz
-          ls -latr
           tar -zxvf depbo-tools.tgz
-          ls -latr
           ls -latr ./depbo-tools-0.8.10
-          export PATH=$PATH:$PWD/depbo-tools-0.8.10/bin
-          export LD_LIBRARY_PATH=$PWD/depbo-tools-0.8.10/lib
+          export PATH=$PATH:$HOME/depbo-tools-0.8.10/bin
+          export LD_LIBRARY_PATH=$HOME/depbo-tools-0.8.10/lib
           ./depbo-tools-0.8.10/bin/extractpbo --help
       - name: Script test
         run: python src/bidentify.py test
