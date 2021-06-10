@@ -42,7 +42,7 @@ class BIdentifyTestCommand :
 
         InspectCommand = BIdentifyInspectCommand(self.config)
         InspectCommand.setVerbosity(self.optionVerbose)
-        
+
         InspectCommand.setDirectory(os.getcwd())
         InspectCommand.setSelectedFile(path)
 

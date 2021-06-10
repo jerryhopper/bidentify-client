@@ -41,10 +41,13 @@ jobs:
         with:
           python-version: '3.9' # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-      - name: Install rarfile
+      - name: Install prerequisites
         shell: bash
         run: |
           pip install rarfile pyunpack
+          wget https://mikero.bytex.digital/api/download?filename=depbo-tools-0.8.10-linux-64bit.tgz
+          tar -zxvf depbo-tools-0.8.10-linux-64bit.tgz
+          ls -latr
       - name: Script test
         run: python src/bidentify.py test
       - name: Docker?
