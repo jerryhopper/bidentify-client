@@ -49,8 +49,6 @@ jobs:
           tar -zxvf depbo-tools.tgz
           ls -latr ./depbo-tools-0.8.10
           export PATH=$PATH:$HOME/depbo-tools-0.8.10/bin
-          #echo $PATH
-          #export $PATH=$PATH:$HOME/depbo-tools-0.8.10/lib
           #export LD_LIBRARY_PATH=$HOME/depbo-tools-0.8.10/lib
           ENV LD_LIBRARY_PATH=$HOME/depbo-tools-0.8.10/lib
           echo $LD_LIBRARY_PATH
