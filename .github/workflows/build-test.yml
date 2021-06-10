@@ -44,7 +44,7 @@ jobs:
       - name: Install rarfile
         shell: bash
         run: |
-          pip install rarfile
+          pip install rarfile pyunpack
       - name: Script test
         run: python src/bidentify.py test
       - name: Docker?
