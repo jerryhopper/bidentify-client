@@ -64,19 +64,24 @@ class BIdentifyInspectCommand:
             print('find scanresults. and scan them.')
             sys.exit()
 
-
+        self.config.get('THECOMMAND')
         extensions = [".zip",".exe",".gz",".rar",".7z"]
         fileExtension = os.path.splitext(self.optionFile)[1].lower()
         # check if the file is a pbo.
         if fileExtension == ".pbo":
             result = self.inspectPbo(self.optionFile)
+            if self.config.get('THECOMMAND') == "test":
+                return result
             print("--------------------")
             pprint.pprint(result)
             print("(BIdentifyInspectCommand) inspect FINISHED")
+
             sys.exit()
         # check if the file is a accepted archive.
         if fileExtension in extensions:
             result = self.inspectArchive( self.optionFile )
+            if self.config.get('THECOMMAND') == "test":
+                return result
             print("--------------------")
             pprint.pprint(result)
             print("(BIdentifyInspectCommand) inspect FINISHED")

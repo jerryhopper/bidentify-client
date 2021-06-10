@@ -60,7 +60,7 @@ class configCpp:
         if p : self.configObject['requiredAddons'] = p.groups()[0].replace('"',"").replace("{","").replace("}","").split(",")
 
         p = re.search("version\s=\s(.*);",configPatches)
-        if p : self.configObject['version'] = p.groups()[0]
+        if p : self.configObject['version'] = p.groups()[0].replace('"',"")
 
         p = re.search("name\s=\s(.*);",configPatches)
         if p : self.configObject['name'] = p.groups()[0].replace('"',"")

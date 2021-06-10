@@ -37,6 +37,8 @@ class BIdentifyConfig:
                 self.optionVerbose = True
 
 
+
+        self.THECOMMAND =sys.argv[-1]
         self.EXENAME= sys.argv[0].split("\\")[-1]
         self.LOCALAPPDATA = os.path.join( os.getenv('LOCALAPPDATA'),"BIdentify")
         self.TMP = os.getenv('%TEMP%')
