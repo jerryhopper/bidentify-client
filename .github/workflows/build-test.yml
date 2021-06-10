@@ -51,7 +51,7 @@ jobs:
           export PATH=$PATH:$HOME/depbo-tools-0.8.10/bin
           export LD_LIBRARY_PATH=$HOME/depbo-tools-0.8.10/lib
           echo $LD_LIBRARY_PATH
-          PATH=$PATH:$HOME/depbo-tools-0.8.10/bin LD_LIBRARY_PATH=$HOME/depbo-tools-0.8.10/lib extractpbo
+          PATH=$PATH:$HOME/depbo-tools-0.8.10/bin LD_LIBRARY_PATH=$HOME/depbo-tools-0.8.10/lib depbo-tools-0.8.10/bin/extractpbo
       - name: Script test
         run: python src/bidentify.py test
       - name: Docker?
