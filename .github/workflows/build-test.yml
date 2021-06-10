@@ -44,7 +44,7 @@ jobs:
       - name: Install prerequisites
         shell: bash
         run: |
-          apt-get install liblzo2-2 libvorbis0a libvorbisfile3 libvorbisenc2 libogg0 libuchardet0 -y
+          sudo apt-get install liblzo2-2 libvorbis0a libvorbisfile3 libvorbisenc2 libogg0 libuchardet0 -y
           pip install rarfile pyunpack
           wget https://mikero.bytex.digital/api/download?filename=depbo-tools-0.8.10-linux-64bit.tgz -O depbo-tools.tgz
           tar -zxvf depbo-tools.tgz
