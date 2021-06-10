@@ -49,9 +49,9 @@ jobs:
           ls -latr
           tar -zxvf depbo-tools.tgz
           ls -latr
-          export PATH=$PATH:$HOME/depbo-tools/bin
-          export LD_LIBRARY_PATH=$HOME/depbo-tools/lib
-          extractpbo --help
+          export PATH=$PATH:$PWD/depbo-tools/bin
+          export LD_LIBRARY_PATH=$PWD/depbo-tools/lib
+          depbo-tools/bin/extractpbo --help
       - name: Script test
         run: python src/bidentify.py test
       - name: Docker?
