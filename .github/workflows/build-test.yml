@@ -49,6 +49,7 @@ jobs:
           ls -latr
           tar -zxvf depbo-tools.tgz
           ls -latr
+          ls -latr ./depbo-tools-0.8.10
           export PATH=$PATH:$PWD/depbo-tools-0.8.10/bin
           export LD_LIBRARY_PATH=$PWD/depbo-tools-0.8.10/lib
           ./depbo-tools-0.8.10/bin/extractpbo --help
