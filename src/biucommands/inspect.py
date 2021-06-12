@@ -70,7 +70,7 @@ class BIdentifyInspectCommand:
         # check if the file is a pbo.
         if fileExtension == ".pbo":
             result = self.inspectPbo(self.optionFile)
-            if self.config.get('THECOMMAND') == "test":
+            if self.config.get('THECOMMAND') in ["test","indexaholic"]:
                 return result
             print("--------------------")
             pprint.pprint(result)
@@ -80,7 +80,7 @@ class BIdentifyInspectCommand:
         # check if the file is a accepted archive.
         if fileExtension in extensions:
             result = self.inspectArchive( self.optionFile )
-            if self.config.get('THECOMMAND') == "test":
+            if self.config.get('THECOMMAND') in ["test","indexaholic"]:
                 return result
             print("--------------------")
             pprint.pprint(result)
@@ -107,7 +107,15 @@ class BIdentifyInspectCommand:
         os. chdir(path_parent)
 
         if os.path.exists(tempDir):
-            shutil.rmtree(tempDir)
+            try:
+                shutil.rmtree(tempDir)
+            except OSError:
+                print("(BIdentifyInspectCommand) inspectArchive OSError: CANNOT DELETE DIRECTORY : "+tempDir )
+                raise Exception("CANNOT DELETE DIRECTORY : "+tempDir )
+            except:
+                print("(BIdentifyInspectCommand) inspectArchive : CANNOT DELETE DIRECTORY : "+tempDir )
+                raise Exception("CANNOT DELETE DIRECTORY : "+tempDir )
+                #pass
         #archive.extract()
         return ArchiveInformation.getAll()
 

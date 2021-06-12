@@ -45,6 +45,8 @@ class configCpp:
         if p is None:
             if self.optionVerbose : print("(configCpp) matchConfigCpp : Nothing found in config.cpp")
             return None
+        if len(p)==0 :
+            return
         configPatches = p[0].replace("\t","")
 
 

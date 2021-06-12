@@ -10,7 +10,7 @@ class missionSqf :
         if self.optionVerbose : print("(matching\missionSqf) init()")
 
         # open file.
-        f = open(os.path.abspath(fileLocation), "r") # ,encoding='utf-8'
+        f = open(os.path.abspath(fileLocation), "r",encoding='utf-8') # ,encoding='utf-8'
         self.textString =  f.read()
         f.close()
 

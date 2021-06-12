@@ -38,6 +38,10 @@ class InspectPbo:
         except FileNotFoundError:
             # handle file not found error.
             a=1
+        except:
+
+            return None
+
         theContents = []
         number =0
         for line in output.splitlines():
@@ -117,7 +121,12 @@ class InspectPbo:
             command = "ExtractPboDos.exe -P -F=\""+configFile+"\" \""+path2+"\" \""+xtractDirectory+"\""
             if self.optionVerbose : print(command)
             #sys.exit()
-            output = check_output(command, shell=False)
+            try:
+                output = check_output(command, shell=False)
+            except:
+                return None
+                pass
+
             #for line in output.splitlines():
             #    print(line.decode())
             #sys.exit()

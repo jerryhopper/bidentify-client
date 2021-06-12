@@ -8,7 +8,7 @@ from biucommands.analyze import BIdentifyAnalyzeCommand
 
 from biucommands.inspect import BIdentifyInspectCommand
 from biucommands.test import BIdentifyTestCommand
-
+from biucommands.indexAholic import indexAholicCommand
 
 
 
@@ -86,6 +86,13 @@ class BIdentify:
             self.doTest()
             sys.exit()
 
+        if sys.argv[1] == "indexaholic":
+            self.type="dirCommand"
+            self.DirectoryArguments()
+            print("Not implemented.")
+            self.doIndexAholic()
+            sys.exit()
+
         if sys.argv[1] == "submit":
             self.type="fileCommand"
             self.FileArguments()
@@ -139,6 +146,17 @@ class BIdentify:
             sys.exit()
         UpdateCommand.update()
 
+    def doIndexAholic(self):
+        indexAholic = indexAholicCommand(self.config)
+        indexAholic.setVerbosity(self.optionVerbose)
+
+        # check if directory exists
+        if not os.path.exists(self.optionDirectory):
+            print("FATAL: directory '"+self.optionDirectory+"'does not exist.")
+            sys.exit()
+        indexAholic.setDirectory(self.optionDirectory)
+        indexAholic.scanGameLists()
+        #indexAholic.scandir()
 
     def doScan(self):
         # initialisation.

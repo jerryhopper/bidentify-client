@@ -65,7 +65,7 @@ class InspectArchive:
         if os.path.isfile(thefile):
             if self.optionVerbose : print( "inspecting "+thefile)
         else:
-            print ("(inspectArchive) ERROR! File not exist (" +thefile+ ")")
+            print ("(inspectArchive) inspectArchive ERROR! File not exist (" +thefile+ ")")
             sys.exit()
 
         fullpath = os.path.abspath(thefile)
@@ -90,7 +90,11 @@ class InspectArchive:
 
         # remove  tempfolder :  ~raree66bbfa6773226319a37ea06bc7b1f4
         if os.path.exists(tempFolder):
-            shutil.rmtree(tempFolder)
+            try:
+                shutil.rmtree(tempFolder)
+            except:
+                print("CANNOT REMOVE : "+tempFolder)
+                pass
         if not os.path.exists(tempFolder):
             os.mkdir(tempFolder)
 
@@ -104,9 +108,11 @@ class InspectArchive:
             # Create the object for this archive.
             ArchiveInformation = myFileObject(fullpath)
 
-
-            Archive(fullpath).extractall(tempFolder)
-
+            try:
+                Archive(fullpath).extractall(tempFolder)
+            except:
+                print( "(InspectArchive) EXTRACT FAILED!!")
+                return None
             os.chdir(tempFolder)
 
             archiveContents = []
@@ -156,8 +162,11 @@ class InspectArchive:
             print("Archive contains "+str(len(archiveContentsOtherFiles))+" other files.")
 
             if len(archiveContentsMissionSqm) >1 or len(archiveContentsMissionSqm) >1 :
+                # Missions and PBO's found!
+                #if
                 print("UNSUPPORTED!  - Multiple missions found in archive.")
-                sys.exit()
+
+                #sys.exit()
 
             #if
             #print("Decisions")
@@ -176,7 +185,7 @@ class InspectArchive:
                 ArchiveInformation.setContains("mission")
                 ArchiveInformation.setFileContentsList( [missionFileObject.getAll()] )
 
-            elif len(archiveContentsPbo) > 1 :
+            elif len(archiveContentsPbo) > 0 :
                 print("(InspectArchive) InspectArchive() : Pbo's found in Archive" )
                 ll = []
                 for item in archiveContentsPbo:
