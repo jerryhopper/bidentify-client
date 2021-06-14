@@ -61,14 +61,62 @@ class indexAholicCommand:
 
         #sys.exit()
     def scanGameLists(self):
-        self.scanlist("arma")
-        self.scanlist("arma2")
-        self.scanlist("arma2_oa")
+        print("scanGameLists")
+
+
+
+        #self.scanBidb("arma")
+        #self.scanBidb("arma2")
+        self.scanBidb("arma2_oa")
+
+        #self.scanList("arma")
+        #self.scanlist("arma2")
+        #self.scanlist("arma2_oa")
+
+    def scanBidb(self,name):
+        print("scanlist")
+
+        os.chdir(self.workingdir)
+        print(self.workingdir)
+        thedir = os.getcwd()
+        FoundList = []
+        MissingList = []
+        #name="arma"
+        print(name)
+        totalSize = 0
+        path = str(Path.home())
+        with open(path+"\\"+name+'.bidb', encoding='utf8') as csvfile:
+            exactName = ""
+            reader = csv.DictReader(csvfile,fieldnames=['game','exists','armaholicid','section','name','filename','armaholicpath'])
+            for row in reader:
+                p = os.path.join(thedir,row['game'],row['game']+"_"+row['section'],row['filename'])
+
+                if row['exists'] == "ERR":
+                    #print(row['game']+" ", )
+                    #print(row)
+                    r = requests.post('http://bidentify.jerryhopper.com/api/hash/p3/'+row['armaholicid'], json=row )
+                    print(r.status_code,r.text)
+                    sys.exit()
+
+
+                #redisKey = row['game']+":"+row['section'].replace("_",":")
+                #print(redisKey+" "+row['game']+"\\"+row['game']+"\\"+row['section']+"\\"+row['filename'])
+
+
+                #time.sleep(20)
+
+                #FoundList.append(row)
+        print( "Missing: "+str(len(MissingList)) )
+        print("Found: "+str(len(FoundList))+" "+str(convert_size(totalSize) ) )
+        return FoundList
+
 
     def resolvePath(self,rediskey):
         rediskey.split(":")
 
     def scanlist(self,name):
+        print("scanlist")
+        return
         os.chdir(self.workingdir)
         print(self.workingdir)
         thedir = os.getcwd()
@@ -112,16 +160,17 @@ class indexAholicCommand:
 
                         if not os.path.exists(jsonObject['fileHash']+'.torrent') :
                             #
-                            torrent = Torrent(p, trackers=['udp://tracker.openbittorrent.com:6969','udp://tracker.opentrackr.org:1337/announce','http://tracker.gbitt.info/announce','udp://explodie.org:6969'])
-                            torrent.comment = "Armhaholic section: "+redisKey.replace(":"," - ")+" "+row['filename']
-                            torrent.private = True
-                            success = torrent.generate(callback=cb, interval=1)
-                            jsonObject['magnet']= str(torrent.magnet())
-                            torrent.write( jsonObject['fileHash']+'.torrent')
+                            #torrent = Torrent(p, trackers=['udp://tracker.openbittorrent.com:6969','udp://tracker.opentrackr.org:1337/announce','http://tracker.gbitt.info/announce','udp://explodie.org:6969'])
+                            #torrent.comment = "Armhaholic section: "+redisKey.replace(":"," - ")+" "+row['filename']
+                            #torrent.private = False
+                            #success = torrent.generate(callback=cb, interval=1)
+                            #jsonObject['magnet']= str(torrent.magnet())
+                            #torrent.write( jsonObject['fileHash']+'.torrent')
                             #self.inspect(p)
                             a=1
-                            r = requests.post('http://bidentify.jerryhopper.com/api/hash/p/'+jsonObject['fileHash'], json=jsonObject )
-                            print(r.status_code)
+                            r = requests.post('http://bidentify.jerryhopper.com/api/hash/p2/'+jsonObject['fileHash'], json=jsonObject )
+                            print(r.status_code,r.text)
+
 
 
                         FoundList.append(jsonObject)
@@ -137,7 +186,8 @@ class indexAholicCommand:
     def scandir(self):
 
         extensions = [".zip",".exe",".gz",".rar",".7z"]
-
+        print("scanlist")
+        return
         os.chdir(self.workingdir)
         for root, dirs, files in os.walk(".", topdown = False):
            for name in files:

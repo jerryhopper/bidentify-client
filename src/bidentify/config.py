@@ -94,7 +94,7 @@ class BIdentifyConfig:
         teller = 0
         while not self.getServerStatus(self.ROOTSERVER):
             self.ROOTSERVER = choice(self.ROOTSERVERS)
-            if self.optionVerbose : print("Finding optimal server... (Trying: "+self.ROOTSERVER+")")
+            print("Finding optimal server... (Trying: "+self.ROOTSERVER+")")
             teller=teller+1
             if teller>3:
                 time.sleep(1.4)
