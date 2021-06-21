@@ -10,10 +10,9 @@ from biucommands.inspect import BIdentifyInspectCommand
 from biucommands.test import BIdentifyTestCommand
 from biucommands.indexAholic import indexAholicCommand
 
+from biucommands.submit import BIdentifySubmitCommand
 
-
-
-
+from biucommands.importcommand import ImportCommand
 
 
 
@@ -94,10 +93,17 @@ class BIdentify:
             sys.exit()
 
         if sys.argv[1] == "submit":
-            self.type="fileCommand"
-            self.FileArguments()
+            self.type="dirCommand"
+            self.DirectoryArguments()
             print("Not implemented.")
-            #inspect()
+            self.doSubmit()
+            sys.exit()
+
+        if sys.argv[1] == "import":
+            self.type="dirCommand"
+            self.DirectoryArguments()
+            print("Not implemented.")
+            self.doImport()
             sys.exit()
 
         self.showUsage()
@@ -116,7 +122,15 @@ class BIdentify:
         print(" "+self.config.get('EXENAME')+" inspect (-h --help)")
 
 
+    def doImport(self):
+        print("Import")
+        importCommand = ImportCommand(self.config)
+        importCommand.setVerbosity(self.optionVerbose)
 
+        importCommand.setDirectory(self.optionDirectory)
+        importCommand.setSelectedFile(self.optionFile)
+
+        importCommand.Import()
 
     def doTest(self):
         testCommand = BIdentifyTestCommand(self.config)
@@ -134,8 +148,17 @@ class BIdentify:
 
         InspectCommand.inspect()
 
+    def doSubmit(self):
+        #
+        SubmitCommand = BIdentifySubmitCommand(self.config)
+        SubmitCommand.setVerbosity(self.optionVerbose)
+        if self.optionHelp:
+            SubmitCommand.showUsage()
+            sys.exit()
+        SubmitCommand.setDirectory(self.optionDirectory)
+        #SubmitCommand.setSelectedFile(self.optionFile)
 
-
+        SubmitCommand.submit()
 
     def doUpdate(self):
         # update
@@ -202,9 +225,12 @@ class BIdentify:
             sys.exit()
 
         # set the directory.
+        print("AnalyzeCommand.setDirectory("+self.optionDirectory+")")
         AnalyzeCommand.setDirectory(self.optionDirectory)
 
         # scan
+        print("AnalyzeCommand.analyzeDir("+self.optionDirectory+")")
+        #print("AnalyzeCommand.analyzeDir()")
         AnalyzeCommand.analyzeDir(self.optionDirectory)
         # analyze
 
