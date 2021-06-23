@@ -1,7 +1,7 @@
 .idea/
 
-old/biucommands/__pycache__
-old/bidentify/__pycache__
+exclude/old/biucommands/__pycache__
+exclude/old/bidentify/__pycache__
 src/__pycache__
 
 example/fileList.bidl
