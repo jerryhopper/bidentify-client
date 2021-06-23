@@ -48,7 +48,7 @@ jobs:
       - name: Install rarfile
         shell: bash
         run: |
-          pip install rarfile pyunpack
+          pip install rarfile pyunpack requests requests_toolbelt
       - name: Script test
         run: python src/bidentify.py
       - name: create pyinstaller executable
