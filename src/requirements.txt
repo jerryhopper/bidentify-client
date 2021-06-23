@@ -1,4 +1,6 @@
 rarfile
 pyunpack
 patool
-
+requests
+requests-toolbelt
+urllib3
