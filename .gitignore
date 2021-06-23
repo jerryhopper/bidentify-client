@@ -1,8 +1,10 @@
 .idea/
-src/biucommands/__pycache__
-src/bidentify/__pycache__
+
+old/biucommands/__pycache__
+old/bidentify/__pycache__
 src/__pycache__
 
 example/fileList.bidl
 example/fileList.bifl
 example/found.txt
+exclude
