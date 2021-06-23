@@ -96,7 +96,7 @@ class indexAholicCommand:
                     #print(row)
                     r = requests.post('http://bidentify.jerryhopper.com/api/hash/p3/'+row['armaholicid'], json=row )
                     print(r.status_code,r.text)
-                    sys.exit()
+                    #sys.exit()
 
 
                 #redisKey = row['game']+":"+row['section'].replace("_",":")

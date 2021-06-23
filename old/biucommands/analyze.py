@@ -88,7 +88,9 @@ class BIdentifyAnalyzeCommand:
             NeedsUpdate = True
 
         if NeedsUpdate == True:
+            print("Update start!")
             self.doUpdate()
+            print("Update done!")
 
         results = self.analyzeFiles(output)
         #print(results)
@@ -100,35 +102,45 @@ class BIdentifyAnalyzeCommand:
         #
         results = []
         # Open the bidentify file-list ()
+        print("analyzeFiles("+name+".bifl)     - "+os.getcwd() )
         with open(name+'.bifl', encoding='utf8') as csvfile:
+            print("Loading csv data in DictReader ( this can be REALLY slow!)")
             reader = csv.DictReader(csvfile)
             for row in reader:
+                print("+", end='')
                 #print(row['exactName'], row['fileSize'], row['filePath'], row['fileName'], row['fileExtension'])
                 # Attempt to find the record in the bidentify-database.
                 foundFiles=findinlist(row['exactName'])
                 for foundFile in foundFiles:
-                    #print (row)
                     if len(foundFile) != 0:
-                        test = {'localFile': row, 'foundFiles':foundFiles }
+                        print(".", end='')
+                        test = {'localFile': row, 'foundFiles':foundFile }
                         results.append(test)
+        ##sys.exit()
+        print("")
         return results
         return results
     #print(results)
 
     def writeAnalyzeResults(self,results):
 
-        csvFile = open('found.txt', 'w', encoding='utf8')
-        FileListWriterFieldNames = ['localFile']
+        csvFile = open(os.path.join(self.optionDirectory,'found.txt'), 'w', encoding='utf8')
+        FileListWriterFieldNames = ['localFile','armaholicid','game','section']
         FileListWriter = csv.DictWriter(csvFile, fieldnames=FileListWriterFieldNames)
         FileListWriter.writeheader()
 
         print('The following files matched the bidentify lists')
         for line in results:
+            #print (results['foundFiles']['armaholicid'])
+
             print(line['localFile']['filePath']+"\\"+line['localFile']['exactName'])
+            #print(line)
+
             #print(line['localFile']['filePath'])
             #line['exists']
-            FileListWriter.writerow({'localFile': line['localFile']['filePath']+"\\"+line['localFile']['exactName'] })
+            FileListWriter.writerow({'localFile': line['localFile']['filePath']+"\\"+line['localFile']['exactName'], 'armaholicid': line['foundFiles']['armaholicid'] ,    'game': line['foundFiles']['game'],  'section': line['foundFiles']['section']} )
 
+        print(os.path.join(self.optionDirectory,'found.txt'))
 
 
 

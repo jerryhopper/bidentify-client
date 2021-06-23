@@ -2,7 +2,7 @@ import sys, getopt
 import os
 import re
 import csv
-from biucommands.hashfile import hashfile
+from bidentify.hashfile import hashfile
 
 
 
@@ -33,7 +33,8 @@ class BIdentifyScanCommand:
 
 
     def scandir(self):
-        self.scandirStart(self.optionDirectory)
+        print("- scandir ")
+        #self.scandirStart(self.optionDirectory)
 
 
     def scandirStart(self,directory):
@@ -45,12 +46,12 @@ class BIdentifyScanCommand:
 
         if self.optionVerbose : print()
         print("Scanning... "+directory)
-        #print("------------------------------")
+        print("------------------------------")
+        print(os.getcwd() )
 
 
 
-
-        csvFile = open('fileList.bifl', 'w', encoding='utf8')
+        csvFile = open(os.path.join(directory,'fileList.bifl'), 'w', encoding='utf8')
         FileListWriterFieldNames = ['exactName', 'fileSize','filePath','fileName','fileExtension']
         FileListWriter = csv.DictWriter(csvFile, fieldnames=FileListWriterFieldNames)
         FileListWriter.writeheader()
