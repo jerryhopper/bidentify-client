@@ -4,8 +4,8 @@ import sys, getopt
 
 
 
-from bidentify.bidentify import BIdentify
-from bidentify.config import BIdentifyConfig
+from lib.bidentify import BIdentify
+from lib.config import BIdentifyConfig
 
 
 #from biucommands.scandir import scandir
@@ -45,5 +45,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-

@@ -5,7 +5,7 @@ import csv
 import requests
 from requests_toolbelt.multipart import encoder
 import time
-from bidentify.hashfile import hashfile
+from lib.hashfile import hashfile
 
 
 

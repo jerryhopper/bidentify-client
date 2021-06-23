@@ -8,7 +8,7 @@ from urllib.error import HTTPError
 from urllib.error import URLError
 import urllib.request
 
-from bidentify.update import BIdentifyUpdateCommand
+from lib.update import BIdentifyUpdateCommand
 
 
 #%Appdata%/Local/BIdentity   %LOCALAPPDATA%/BIdentity

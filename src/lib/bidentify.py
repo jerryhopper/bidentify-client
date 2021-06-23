@@ -1,9 +1,9 @@
 import os
 import sys, getopt
 
-from bidentify.update import BIdentifyUpdateCommand
+from lib.update import BIdentifyUpdateCommand
 
-from bidentify.scandir import BIdentifyScanCommand
+from lib.scandir import BIdentifyScanCommand
 
 
 
