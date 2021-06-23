@@ -45,7 +45,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get install liblzo2-2 libvorbis0a libvorbisfile3 libvorbisenc2 libogg0 libuchardet0 -y
-          pip install rarfile pyunpack requests
+          pip install rarfile pyunpack requests requests_toolbelt
           wget https://mikero.bytex.digital/api/download?filename=depbo-tools-0.8.10-linux-64bit.tgz -O depbo-tools.tgz
           tar -zxvf depbo-tools.tgz
           ls -latr ./depbo-tools-0.8.10
