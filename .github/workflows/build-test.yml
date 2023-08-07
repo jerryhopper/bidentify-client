@@ -49,11 +49,11 @@ jobs:
           #wget https://mikero.bytex.digital/api/download?filename=depbo-tools-0.8.10-linux-64bit.tgz -O depbo-tools.tgz
           wget https://mikero.bytex.digital/api/download?filename=depbo-tools-0.9.36-linux-amd64.tgz -O depbo-tools.tgz
           tar -zxvf depbo-tools.tgz
-          ls -latr ./depbo-tools-0.8.10
-          export PATH=$PATH:$HOME/depbo-tools-0.8.10/bin
-          export LD_LIBRARY_PATH=$HOME/depbo-tools-0.8.10/lib
+          ls -latr ./depbo-tools-0.9.36
+          export PATH=$PATH:$HOME/depbo-tools-0.9.36/bin
+          export LD_LIBRARY_PATH=$HOME/depbo-tools-0.9.36/lib
           echo $LD_LIBRARY_PATH
-          #PATH=$PATH:$HOME/depbo-tools-0.8.10/bin LD_LIBRARY_PATH=$HOME/depbo-tools-0.8.10/lib depbo-tools-0.8.10/bin/extractpbo
+          #PATH=$PATH:$HOME/depbo-tools-0.9.36/bin LD_LIBRARY_PATH=$HOME/depbo-tools-0.9.36/lib depbo-tools-0.9.36/bin/extractpbo
       - name: Script test
         run: python src/bidentify.py
       - name: Docker?
